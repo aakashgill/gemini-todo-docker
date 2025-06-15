@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  db:
+    image: mysql:8.0
+    container_name: todo_db
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # Node.js Backend API Service
+  app:
+    depends_on:
+      - db
+    build: .
+    container_name: todo_app
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      DB_HOST: db
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - app-network
+
+  # Nginx Web Server / Reverse Proxy
+  nginx:
+    depends_on:
+      - app
+    image: nginx:stable-alpine
+    container_name: todo_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80" # Map host port 80 to container port 80
+    volumes:
+      - ./public:/var/www/html # Mount our frontend files
+      - ./nginx.conf:/etc/nginx/nginx.conf # Mount our nginx config
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:

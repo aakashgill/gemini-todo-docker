@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Todo App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main class="app-container">
+        <header>
+            <h1>My Todos</h1>
+            <p>A simple app running on Docker & Nginx</p>
+        </header>
+
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="What needs to be done?" autocomplete="off" required>
+            <button type="submit">Add Todo</button>
+        </form>
+
+        <ul id="todo-list">
+            <!-- Todo items will be injected here by JavaScript -->
+        </ul>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
