@@ -14,23 +14,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Node.js (example - replace with your project's needs)
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install dependencies (example)
+    - name: Deploy application
       run: |
+        cd /home/aakash/gemini-todo-docker
+        git pull origin test-ci
         npm install
-
-    - name: Test Docker build (GitHub hosted runner)
-      run: |
-           echo "Testing Docker compose configuration..."
-           docker compose config
-           echo "Docker compose file is valid!"
-           
-    - name: Build Docker images (test only)
-      run: |
-           echo "Building Docker images for testing..."
-           docker compose build
-           echo "Build successful!" 
+        docker compose up -d
+        echo "Deployment successful!"
