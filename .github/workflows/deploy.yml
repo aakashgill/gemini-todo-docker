@@ -1,0 +1,31 @@
+# .github/workflows/deploy.yml
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - test-ci # Or the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, digitalocean] # Use the labels you defined for your runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js (example - replace with your project's needs)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies (example)
+      run: |
+        npm install
+
+    - name: Deploy application
+      run: |
+           cp -r . /home/aakash/gemini-todo-docker
+           cd /home/aakash/gemini-todo-docker
+           docker compose up -d
+           echo "Deployment successful!" 
