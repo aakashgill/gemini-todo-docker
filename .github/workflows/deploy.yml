@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, linux, digitalocean] # Use the labels you defined for your runner
+    runs-on: ubuntu-latest # Use GitHub hosted runner temporarily for testing
 
     steps:
     - name: Checkout code
@@ -23,17 +23,14 @@ jobs:
       run: |
         npm install
 
-    - name: Deploy application
+    - name: Test Docker build (GitHub hosted runner)
       run: |
-           cp -r . /home/aakash/gemini-todo-docker
-           cd /home/aakash/gemini-todo-docker
-           docker compose up -d
-           echo "Deployment successful!"
-
-    - name: Show deployment status
+           echo "Testing Docker compose configuration..."
+           docker compose config
+           echo "Docker compose file is valid!"
+           
+    - name: Build Docker images (test only)
       run: |
-           cd /home/aakash/gemini-todo-docker
-           echo "=== Container Status ==="
-           docker compose ps
-           echo "=== Container Logs ==="
-           docker compose logs --tail=50 
+           echo "Building Docker images for testing..."
+           docker compose build
+           echo "Build successful!" 
