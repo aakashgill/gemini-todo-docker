@@ -28,4 +28,12 @@ jobs:
            cp -r . /home/aakash/gemini-todo-docker
            cd /home/aakash/gemini-todo-docker
            docker compose up -d
-           echo "Deployment successful!" 
+           echo "Deployment successful!"
+
+    - name: Show deployment status
+      run: |
+           cd /home/aakash/gemini-todo-docker
+           echo "=== Container Status ==="
+           docker compose ps
+           echo "=== Container Logs ==="
+           docker compose logs --tail=50 
