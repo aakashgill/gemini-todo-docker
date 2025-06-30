@@ -1,0 +1,28 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - test-ci
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Use GitHub hosted runner first
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Test basic functionality
+      run: |
+        echo "Workflow is running!"
+        echo "Current directory: $(pwd)"
+        echo "Branch: ${{ github.ref_name }}"
+        echo "Commit: ${{ github.sha }}"
+        ls -la
+
+    - name: Test Node.js setup
+      run: |
+        node --version
+        npm --version 
